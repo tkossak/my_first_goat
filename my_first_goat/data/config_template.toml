@@ -1,0 +1,31 @@
+[bot]
+# Discord bot token
+# Get it from: https://discordapp.com/developers/applications/me
+token = 'BOT_TOKEN'
+
+[server]
+# discord server ID (invite the bot to this server with access permissions to proper channels)
+server_id = 123
+
+# ID of discord user, who will receive main bot messages
+# required by: --send, --loot
+user_send = 234
+
+# ID of discord user, who will receive debug/test messages
+# used by: --test
+user_debug = 345
+
+# ID of discord channel, from which loot messages will be read
+# required by: --loot
+channel_loot_from_id = 456
+
+# ID of discord channel, to which loot summary message will be sent
+# required by: --loot
+channel_loot_to_id = 567
+
+# Discord role name: may be string or list
+# display list of members only for given role(s)
+# display loot messages mentioning users having this role
+# required by: --get, --send, --loot
+role_to_monitor = 'Member'
+
