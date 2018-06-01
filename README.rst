@@ -1,8 +1,7 @@
 Discord bot helping to manage gaming discord server (members and loot messages)
 
-# TODO: finish README :)
+# TODO: finish README :) ::
 
-::
     my_first_goat --help
     Usage: my_first_goat [OPTIONS]
 
