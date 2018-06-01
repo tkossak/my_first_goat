@@ -1,9 +1,3 @@
-#!/usr/bin/env python3
-
-"""
-Discord Bot for counting server members and helping in managing Albion-Online discord server
-"""
-
 import string
 import discord
 import sqlite3
@@ -298,7 +292,7 @@ class MyFirstGoat:
             All times are in UTC (game time).
             Only people with Member/Officer/Admin roles are displayed.
             If you paid already, mark it in your message in {self.discord_loot_channel.mention}.
-            Any remarks about the bot direct to Kossak.""")
+            Any remarks about the bot direct to Kossak""")
             # for debtor, creditors in debtors.items():  # iterator over str (debtor mentions)
             for debtor, creditors in sorted(debtors.items(), key=lambda x: max(e.created for e in x[1]), reverse=True):
                 yield f'\n{debtor.mention}:'
@@ -553,4 +547,3 @@ class MyFirstGoat:
             log.info('END')
 
 # TODO: change self.members to async property
-# TODO: add possibility to use names in config file
