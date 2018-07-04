@@ -15,6 +15,7 @@ Bot can:
 + Display discord server changelog (list of all members and members that are new/removed/renamed),
   which you can use to compare with your guild members in game.
 + Scan loot/money messages from specific channel and summarize who owns who and how much.
++ Search servers/channels/users by their names
 
 Installation
 ============
