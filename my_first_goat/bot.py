@@ -24,21 +24,34 @@ class MyFirstGoat:
     config_home = UserConfigFS(__package_name__, create=True)
 
     def __init__(self,
-                 test,
-                 get_members,
-                 send_members,
-                 loot,
+                 test: bool,
+                 get_members: bool,
+                 send_members: bool,
+                 loot: bool,
+                 search_server: str,
+                 search_channel: str,
+                 search_user: str,
+                 display_info: bool
                  ):
         self.cli_test = test
         self.cli_get = get_members
         self.cli_send = send_members
         self.cli_loot = loot
+        self.search_server = search_server.lower() if search_server else None
+        self.found_servers = set()
+        self.search_channel = search_channel.lower() if search_channel else None
+        self.search_user = search_user.lower() if search_user else None
+        self.if_display_info = display_info
+
+        self.config_file_name = 'config.toml'
+        self.db_file_name = 'members.sqlite'
 
         self._server = None
         self.members = []  # list of Member obj: DGS members with "Member" role
         self.members_all_guild = []
         self.members_all_guild_mentions_str = []
         self.members_all_server = []
+        # TODO: move to config file
         self.guild_roles = {'Member', 'Officer', 'Admin'}
         self.con = None
         self.cur = None
@@ -68,8 +81,9 @@ class MyFirstGoat:
             self.discord_general_channel_id = None
 
     def setup_db(self):
+        db_file_name = self.db_file_name
         # self.con = sqlite3.connect('members.sqlite')
-        log.info(f'DB path: {MyFirstGoat.data_home.getsyspath("members.sqlite")}')
+        log.info(f'DB path: {MyFirstGoat.data_home.getsyspath(db_file_name)}')
         self.con = sqlite3.connect(MyFirstGoat.data_home.getsyspath('members.sqlite'))
         self.cur = self.con.cursor()
         self.cur.execute('''CREATE TABLE IF NOT EXISTS members
@@ -86,7 +100,7 @@ class MyFirstGoat:
 
     def setup_config(self) -> bool:
         config_template_file_name = 'config_template.toml'
-        config_file_name = 'config.toml'
+        config_file_name = self.config_file_name
         if_init = False
         if MyFirstGoat.config_home.exists(config_file_name):
             # load config file
@@ -225,7 +239,6 @@ class MyFirstGoat:
                 after=dt.datetime(2018, 2, 18)
         ):
             # get mentions for 1 message:
-            # TODO: make function for cleaning mentions
             author_metion = msg.author.mention.replace('<@!', '<@')
             if msg.id in msg_ids_to_ignore or \
                     author_metion not in self.members_all_guild_mentions_str:
@@ -262,11 +275,8 @@ class MyFirstGoat:
             if msg.mentions:
                 how_much_per_person = get_how_much_per_person(msgl)
             for creditor_obj in msg.mentions:
-                # try:
                 creditor_mention = creditor_obj.mention.replace('<@!', '<@')
                 i = msgl.index(creditor_mention)
-                # except Exception as e:
-                #     raise e
 
                 if creditor_mention not in self.members_all_guild_mentions_str:
                     continue
@@ -287,13 +297,12 @@ class MyFirstGoat:
         def get_msg_lines_gen():
             nonlocal debtors
             yield textwrap.dedent(f"""
-            Where's my wonga bro?
-            If you don't collect your money for over 30 days, it goes to guild bank (marked with :warning: icon).
-            All times are in UTC (game time).
-            Only people with Member/Officer/Admin roles are displayed.
-            If you paid already, mark it in your message in {self.discord_loot_channel.mention}.
-            Any remarks about the bot direct to Kossak""")
-            # for debtor, creditors in debtors.items():  # iterator over str (debtor mentions)
+                Where's my wonga bro?
+                If you don't collect your money for over 30 days, it goes to guild bank (marked with :warning: icon).
+                All times are in UTC (game time).
+                Only people with Member/Officer/Admin roles are displayed.
+                If you paid already, mark it in your message in {self.discord_loot_channel.mention}.
+                Any remarks about the bot direct to Kossak""")
             for debtor, creditors in sorted(debtors.items(), key=lambda x: max(e.created for e in x[1]), reverse=True):
                 yield f'\n{debtor.mention}:'
                 count = len(creditors)
@@ -403,10 +412,44 @@ class MyFirstGoat:
             if self.cli_loot:
                 await self.bot_send_loot_messages()
 
+            if self.search_server:
+                await self.bot_search_server()
+            if self.search_channel:
+                await self.bot_search_channel()
+            if self.search_user:
+                await self.bot_search_user()
+
             log.info('logging out')
             await client.logout()
 
         client.run(self.discord_bot_token)
+
+    async def bot_search_server(self):
+        print('Server id/names found:')
+        self.found_servers.clear()
+        for ser in self.client.servers:
+            if self.search_server in ser.name.lower():
+                self.found_servers.add(ser)
+                print(f'{ser.id} - {ser.name}')
+        print()
+
+    async def bot_search_channel(self):
+        print('Channel id/names found:')
+        servers_to_search = self.found_servers if self.found_servers else self.client.servers
+        for ser in servers_to_search:
+            for channel in ser.channels:
+                if self.search_channel in channel.name.lower():
+                    print(f'{channel.id} - {ser.name}/{channel.name} ({str(channel.type)})')
+        print()
+
+    async def bot_search_user(self):
+        print('User id/names found:')
+        servers_to_search = self.found_servers if self.found_servers else self.client.servers
+        for ser in servers_to_search:
+            for user in ser.members:
+                if self.search_user in user.display_name.lower():
+                    print(f'{user.id} - {ser.name}/{user.name}')
+        print()
 
     def compare_snapshots_and_prepare_msg(self):
         if self.text_summary or self.text_full:
@@ -527,6 +570,12 @@ class MyFirstGoat:
         text_to_print = self.text_full
         print(text_to_print.replace('`', ''))
 
+    def display_info(self):
+        config_file_name = self.config_file_name
+        db_file_name = self.db_file_name
+        print(f'DB file: {MyFirstGoat.data_home.getsyspath(db_file_name)}')
+        print(f'Configuration file: {MyFirstGoat.config_home.getsyspath(config_file_name)}')
+
     @staticmethod
     def text_codify_for_discord(text: str):
         if not text:
@@ -539,10 +588,14 @@ class MyFirstGoat:
     def main(self):
         log.info('START')
         try:
-            if self.cli_get or self.cli_send or self.cli_loot or self.cli_test:
+            if self.if_display_info:
+                self.display_info()
+            elif self.cli_get or self.cli_send or self.cli_loot or self.cli_test \
+                    or self.search_server or self.search_channel or self.search_user:
                 self.bot_run()
             else:
-                self.compare_snapshots_and_prepare_msg()
+                # self.compare_snapshots_and_prepare_msg()
+                self.display_info()
         finally:
             log.info('END')
 

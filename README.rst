@@ -1,19 +1,11 @@
 *************
 my_first_goat
 *************
+Discord bot / command line application helping to manage gaming discord server (members and loot messages)
 
-Discord bot helping to manage gaming discord server (members and loot messages)
+.. contents::
 
-Contents
-===============
-+ Features_
-+ Installation_
-+ Usage_
-
-  + `Available options`_
-  + `Test bot token`_
-  + `Loot messages`_
-  + `Discord server changelog`_
+.. section-numbering::
 
 Features
 ========
@@ -37,14 +29,19 @@ Run the bot without any parameters to create sqlite database (for keeping member
 
     > my_first_goat
 
-    [I 180601 14:43:25 bot:78] DB path: /home/kossak/.local/share/my_first_goat/members.sqlite
     Config data was copied to /home/kossak/.config/my_first_goat/config.toml
     Edit this file and rerun the bot.
-    [I 180601 14:43:25 bot:122] Config path: /home/kossak/.config/my_first_goat/config.toml
 
-Edit the ``config.toml`` file that was created and replace dummy values with proper discord IDs (for server / channels /
-users / bot). For now you need to find the IDs manually. TODO: add option to display all server/channel/user IDs.
+Configuration
+-------------
+Edit the ``config.toml`` file that was created and replace dummy values with proper discord IDs for all the variables
+(server / channels / users). All the options are explained in the config file. To find IDs use::
 
+    my_first_goat --search-server <SERVER_NAME>
+    my_first_goat --search-channel <CHANNEL_NAME>
+    my_first_goat --search-user <USER_NAME>
+
+You don't need to enter full server/channel/user names, part of the names will be searched for too (case insensitive).
 
 Usage
 =====
@@ -57,16 +54,22 @@ Available options
 
     Usage: my_first_goat [OPTIONS]
 
-      Discord bot helping to manage gaming discord server (members and loot
-      messages)
+    Discord bot helping to manage gaming discord server (members and loot messages)
 
     Options:
-      -l, --loot  Process loot messages and send summary
-      -g, --get   Get snapshot of members from discord server and save in the database
-      -s, --send  Send comparison between two last member snapshots
-      -t, --test  Send test message to debug_user. May be used alone or with -s/-l
-              to send messages only to debug_user
-      --help      Show this message and exit.
+      --version              Show the version and exit.
+      --info                 Display info about configuration/database file
+      -l, --loot             Process loot messages and send summary
+      -g, --get              Get snapshot of members from discord server and save
+                             in the database
+      -s, --send             Send comparison between two last member snapshots
+      -t, --test             Send test message to debug_user. May be used alone or
+                             with -s/-l to send messages only to debug_user
+      --search-server TEXT   search for servers containing given phrase
+      --search-channel TEXT  search for channel IDs containing given phrase
+      --search-user TEXT     display /IDs containing given phrase
+      -v, --verbose          Be verbose
+      --help                 Show this message and exit.
 
 Test bot token
 --------------
@@ -83,7 +86,7 @@ Read and summarize all loot messages with::
     my_first_goat --loot
 
 Bot will scan through all messages in ``channel_loot_from_id`` and output summary message to
-``channel_loot_to_id``. On your discord server you need to have a channel where people post loot messages, containing
+``channel_loot_to_id`` (add ``--test`` switch to send this message only to ``debug_user_id``). On your discord server you need to have a channel where people post loot messages, containing
 mentions of all party members and (if available) money that is split between party. The message should have format similar to::
 
     @Member1 @Member2 @Member3 paid @Member4
@@ -114,8 +117,9 @@ Get at least two snapshots and then you can send the changelog between last two 
 
     my_first_goat --send
 
-The result message contains all new/removed/renamed members as well as list of all members (with given role)
+(Add ``--test`` option to send this message only to ``debug_user_id``). The result message contains all new/removed/renamed members as well as list of all members (with given role)
 that you can copy (and for example compare with guild members in the game). Sample message:
 
 .. image:: data/images/members_sample.png
 
+.. _Discord Application: https://discordapp.com/developers/applications/me

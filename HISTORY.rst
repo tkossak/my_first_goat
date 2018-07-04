@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.5.0 (2018.07.04)
+------------------
++ add possibility to search for servers/channels/users
+
 0.4.1 (2018.06.08)
 ------------------------
 + clean some code

@@ -1,14 +1,17 @@
 [bot]
 # Discord bot token
-# Get it from: https://discordapp.com/developers/applications/me
+# First create your discord application here: https://discordapp.com/developers/applications/me
+# Then get your token from newly created application
 token = 'BOT_TOKEN'
 
 [server]
 # discord server ID (invite the bot to this server with access permissions to proper channels)
+# to find servers that the bot can see use: my_first_goat --search-server NAME
 server_id = 123
 
 # ID of discord user, who will receive main bot messages
 # required by: --send, --loot
+# To find users use: my_first_goat --search-user NAME
 user_send = 234
 
 # ID of discord user, who will receive debug/test messages
@@ -17,6 +20,7 @@ user_debug = 345
 
 # ID of discord channel, from which loot messages will be read
 # required by: --loot
+# to find channels use: my_first_goat --seaerch-channel NAME
 channel_loot_from_id = 456
 
 # ID of discord channel, to which loot summary message will be sent
@@ -27,5 +31,5 @@ channel_loot_to_id = 567
 # display list of members only for given role(s)
 # display loot messages mentioning users having this role
 # required by: --get, --send, --loot
-role_to_monitor = 'Member'
+role_to_monitor = ['Member']
 
