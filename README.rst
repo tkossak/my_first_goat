@@ -79,6 +79,23 @@ Send test message to ``user_debug`` (see config file) by::
 
     my_first_goat --test
 
+Discord server changelog
+------------------------
+
+Use::
+
+    my_first_goat --get
+
+to get snapshot of all discord members with specified role(s) (see config file) and save them in the database.
+Get at least two snapshots and then you can send the changelog between last two snapshots (to the user ``user_send``) with::
+
+    my_first_goat --send
+
+(Add ``--test`` option to send this message only to ``user_debug``). The result message contains all new/removed/renamed members as well as list of all members (with given role)
+that you can copy (and for example compare with guild members in the game). Sample message:
+
+.. image:: data/images/members_sample.png
+
 Loot messages
 -------------
 
@@ -87,7 +104,7 @@ Read and summarize all loot messages with::
     my_first_goat --loot
 
 Bot will scan through all messages in ``channel_loot_from_id`` and output summary message to
-``channel_loot_to_id`` (add ``--test`` switch to send this message only to ``debug_user_id``). On your discord server you need to have a channel where people post loot messages, containing
+``channel_loot_to_id`` (add ``--test`` switch to send this message only to ``user_debug``). On your discord server you need to have a channel where people post loot messages, containing
 mentions of all party members and (if available) money that is split between party. The message should have format similar to::
 
     @Member1 @Member2 @Member3 paid @Member4
@@ -105,22 +122,5 @@ Sample message:
 Example of summary message, sent by the bot:
 
 .. image:: data/images/msg_loot_out_1.png
-
-Discord server changelog
-------------------------
-
-Use::
-
-    my_first_goat --get
-
-to get snapshot of all discord members with specified role(s) (see config file) and save them in the database.
-Get at least two snapshots and then you can send the changelog between last two snapshots (to the user ``user_send``) with::
-
-    my_first_goat --send
-
-(Add ``--test`` option to send this message only to ``debug_user_id``). The result message contains all new/removed/renamed members as well as list of all members (with given role)
-that you can copy (and for example compare with guild members in the game). Sample message:
-
-.. image:: data/images/members_sample.png
 
 .. _Discord Application: https://discordapp.com/developers/applications/me
