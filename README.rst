@@ -17,8 +17,14 @@ Bot can:
 + Scan loot/money messages from specific channel and summarize who owns who and how much.
 + Search servers/channels/users by their names
 
+Requirements
+============
+
++ python >= 3.6.5
+
 Installation
 ============
+
 
 Using pip::
 
