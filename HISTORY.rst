@@ -4,6 +4,7 @@ Changelog
 0.5.1 (2018.07.23)
 ------------------
 + minimum scanned date: today - 180 days
++ use poetry instead of pipenv (too many problems with it)
 
 0.5.0 (2018.07.04)
 ------------------

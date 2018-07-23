@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "my_first_goat"
+version = "0.5.1"
+description = "Discord bot helping to manage gaming discord server (members and loot messages)"
+authors = ["Kossak <kossak.git@gmail.com>"]
+license = "MIT"
+
+[tool.poetry.dependencies]
+python = "^3.6.5"
+"discord.py" = "^0.16.12"
+logzero = "^1.5"
+fs = "^2.0"
+toml = "^0.9.4"
+click = "^6.7"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+my_first_goat = 'my_first_goat.__main__:main'
+
