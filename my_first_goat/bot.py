@@ -18,7 +18,9 @@ log = logzero.logger
 
 class MyFirstGoat:
 
+    # if bot can't figure out how much money is owned it sends this:
     HOW_MUCH_NONE = '???'
+    # characters used in money values:
     MONEY_CHARS = string.digits + ',.kmKM'
     data_home = UserDataFS(__package_name__, create=True)
     config_home = UserConfigFS(__package_name__, create=True)
@@ -214,7 +216,7 @@ class MyFirstGoat:
                         return val.strip(' ,.')
             return None
 
-        def check_if_money_value(val: str):
+        def check_if_money_value(val: str) -> bool:
             at_least_one_digit = any(c in string.digits for c in val)
             all_chars_are_allowed = all(c in MyFirstGoat.MONEY_CHARS for c in val)
             return val and at_least_one_digit and all_chars_are_allowed
@@ -232,17 +234,19 @@ class MyFirstGoat:
         #         after=dt.datetime(2018, 2, 23),
         #         before=dt.datetime(2018, 2, 25)
         # ):
-        # TODO: remove hardcoded date: take oldest date, but minimum 2 months
+        # TODO: store minimum date in config table
+        min_date = dt.datetime.today() - dt.timedelta(days=180)
         async for msg in self.client.logs_from(
                 channel=self.discord_loot_channel,
                 limit=999999,
-                after=dt.datetime(2018, 2, 18)
+                after=min_date,
         ):
             # get mentions for 1 message:
             author_metion = msg.author.mention.replace('<@!', '<@')
             if msg.id in msg_ids_to_ignore or \
                     author_metion not in self.members_all_guild_mentions_str:
                 continue
+
             # standardize mentions:
             msg_clean_content = msg.content.replace('<@!', '<@')
             # remove spaces between "splits" and ":"
@@ -255,7 +259,7 @@ class MyFirstGoat:
             msg_clean_content = re.sub(r'([^\s])(<@\d+>)', r'\1 \2', msg_clean_content)
             msgl = msg_clean_content.split()
 
-            # if money digits are split (by space) the join them:
+            # if money digits are split (by space) then join them:
             tmp_msgl = []
             cur_money = ''
             for part in msgl:
@@ -306,13 +310,18 @@ class MyFirstGoat:
             for debtor, creditors in sorted(debtors.items(), key=lambda x: max(e.created for e in x[1]), reverse=True):
                 yield f'\n{debtor.mention}:'
                 count = len(creditors)
-                for ind, creditor in enumerate(sorted(creditors, key=lambda x: (x.created, x.creditor), reverse=True), 1):
+                for ind, creditor in enumerate(
+                        sorted(creditors, key=lambda x: (x.created, x.creditor), reverse=True),
+                        1
+                ):
                     if (dt.date.today() - creditor.created.date()) > dt.timedelta(days=30):
                         over_month = ' :warning:'
                     else:
                         over_month = ''
-                    l = ('├' if ind < count else '└') + f'  {creditor.creditor} - `${creditor.how_much}`  ❲{creditor.created.strftime("%b %d, %H:%M:%S")}{over_month}❳'
-                    yield l
+                    ret = ('├' if ind < count else '└') + \
+                          f'  {creditor.creditor} - `${creditor.how_much}`  ' + \
+                          f'❲{creditor.created.strftime("%b %d, %H:%M:%S")}{over_month}❳'
+                    yield ret
 
         cur_msg = []  # single message: list of str
         msgs = []  # all messages: list of str
@@ -577,7 +586,7 @@ class MyFirstGoat:
         print(f'Configuration file: {MyFirstGoat.config_home.getsyspath(config_file_name)}')
 
     @staticmethod
-    def text_codify_for_discord(text: str):
+    def text_codify_for_discord(text: str) -> str:
         if not text:
             return text
         elif text.count('\n') == 0:

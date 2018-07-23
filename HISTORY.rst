@@ -1,6 +1,10 @@
 Changelog
 =========
 
+0.5.1 (2018.07.23)
+------------------
++ minimum scanned date: today - 180 days
+
 0.5.0 (2018.07.04)
 ------------------
 + add possibility to search for servers/channels/users
