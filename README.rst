@@ -29,7 +29,7 @@ Installation
 
 Using pip::
 
-    pip install git+https://github.com/tkossak/my_first_goat
+    pip install -U git+https://github.com/tkossak/my_first_goat
 
 Setup
 -----
