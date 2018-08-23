@@ -20,7 +20,8 @@ Bot can:
 Requirements
 ============
 
-+ python >= 3.6.5
++ Python >= 3.6.5
++ Linux (it should work on Windows, although I haven't tested it there)
 
 Installation
 ============
@@ -28,7 +29,7 @@ Installation
 
 Using pip::
 
-    pip install 'git+https://github.com/tkossak/my_first_goat'                                                                                             1 
+    pip install git+https://github.com/tkossak/my_first_goat
 
 Setup
 -----
@@ -101,6 +102,10 @@ Get at least two snapshots and then you can send the changelog between last two 
 that you can copy (and for example compare with guild members in the game). Sample message:
 
 .. image:: data/images/members_sample.png
+
+You can also combine getting the snapshot and sending differences in one command::
+
+    my_first_goat -gs
 
 Loot messages
 -------------
