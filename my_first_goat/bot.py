@@ -347,7 +347,7 @@ class MyFirstGoat:
         log.info('END get loot')
 
     async def bot_test_message(self):
-        await self.client.send_message(destination=self.discord_user_debug, content='testowa wiadomość')
+        await self.client.send_message(destination=self.discord_user_debug, content='Test message')
 
     async def bot_download_members_list(self):
         if self.members:

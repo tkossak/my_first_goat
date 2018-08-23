@@ -1,6 +1,11 @@
 Changelog
 =========
 
+0.5.2 (in progress)
+-------------------
++ translate test message into english
++ update install/usage instructions in README
+
 0.5.1 (2018.07.23)
 ------------------
 + minimum scanned date: today - 180 days
