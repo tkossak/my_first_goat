@@ -1,0 +1,29 @@
+[bot]
+token = 'NDA2MjEzNDUyMzMyNTMxNzEz.DUvxaA.DALCVVimU494m6IKuBNiqgUl2ZE'
+
+[server]
+# discord server ID (invite the bot to this server with access permissions to proper channels)
+server_id = 340697842614140930
+
+# ID of discord user, who will receive main bot messages
+# used by: --send
+user_send = 265143834533429259
+
+# ID of discord user, who will receive debug/test messages
+# used by: --test
+user_debug = 180070151775977472
+
+# ID of discord channel, from which loot messages will be read
+# used by: --loot
+channel_loot_from_id = 369807346848759808
+
+# ID of discord channel, to which loot summary message will be sent
+# used by: --loot
+channel_loot_to_id = 340697842614140930
+
+# Discord role name: may be string or list
+# display list of members only for this role(s)
+# display loot messages mentioning users having this role
+# used by: --get, --send, --loot
+role_to_monitor = 'Member'
+
