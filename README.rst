@@ -135,3 +135,8 @@ Example of summary message, sent by the bot:
 .. image:: data/images/msg_loot_out_1.png
 
 .. _Discord Application: https://discordapp.com/developers/applications/me
+
+
+.. image:: https://badges.production.guardrails.io/tkossak/my_first_goat.svg
+   :alt: GuardRails badge
+   :target: https://www.guardrails.io
