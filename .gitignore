@@ -105,3 +105,6 @@ ENV/
 
 # sqlite db with member history
 members.sqlite
+
+# poetry lock:
+pyproject.lock
