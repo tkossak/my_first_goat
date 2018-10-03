@@ -6,48 +6,48 @@ import logzero
 import click
 
 log = logzero.logger
-logzero.loglevel("ERROR")
+logzero.loglevel('ERROR')
 
 
 @click.command()
 @click.version_option(version=__version__.__version__)
 @click.option(
-    "--info", is_flag=True, help="Display info about configuration/database file"
+    '--info', is_flag=True, help='Display info about configuration/database file'
 )
 @click.option(
-    "-l", "--loot", is_flag=True, help="Process loot messages and send summary"
+    '-l', '--loot', is_flag=True, help='Process loot messages and send summary'
 )
 @click.option(
-    "-g",
-    "--get",
+    '-g',
+    '--get',
     is_flag=True,
-    help="Get snapshot of members from discord server and save in the database",
+    help='Get snapshot of members from discord server and save in the database',
 )
 @click.option(
-    "-s",
-    "--send",
+    '-s',
+    '--send',
     is_flag=True,
-    help="Send comparison between two last member snapshots",
+    help='Send comparison between two last member snapshots',
 )
 @click.option(
-    "-t",
-    "--test",
+    '-t',
+    '--test',
     is_flag=True,
-    help="Send test message to debug_user. May be used alone or with -s/-l to "
-    "send messages only to debug_user",
+    help='Send test message to debug_user. May be used alone or with -s/-l to '
+    'send messages only to debug_user',
 )
-@click.option("--search-server", help="search for servers containing given phrase")
-@click.option("--search-channel", help="search for channel IDs containing given phrase")
-@click.option("--search-user", help="display /IDs containing given phrase")
-@click.option("-v", "--verbose", is_flag=True, help="Be verbose")
+@click.option('--search-server', help='search for servers containing given phrase')
+@click.option('--search-channel', help='search for channel IDs containing given phrase')
+@click.option('--search-user', help='display /IDs containing given phrase')
+@click.option('-v', '--verbose', is_flag=True, help='Be verbose')
 def main(
     test, get, send, loot, search_server, search_channel, search_user, info, verbose
 ):
-    """
+    '''
     Discord bot helping to manage gaming discord server (members and loot messages)
-    """
+    '''
     if verbose:
-        logzero.loglevel("INFO")
+        logzero.loglevel('INFO')
 
     bot = MyFirstGoat(
         test=test,
@@ -63,7 +63,7 @@ def main(
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     import sys
 
     sys.exit(main())
