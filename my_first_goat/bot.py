@@ -11,6 +11,7 @@ from fs.appfs import UserDataFS, UserConfigFS
 from typing import Union
 import toml
 from pathlib import Path
+from .__version__ import __version__
 
 __package_name__ = 'my_first_goat'
 log = logzero.logger
@@ -367,7 +368,8 @@ class MyFirstGoat:
 
     async def bot_test_message(self):
         await self.client.send_message(
-            destination=self.discord_user_debug, content='Test message'
+            destination=self.discord_user_debug,
+            content=f'my_first_goat, version: {__version__}'
         )
 
     async def bot_download_members_list(self):
