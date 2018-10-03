@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import os
-
 from setuptools import find_packages, setup
 
 # Package meta-data.
@@ -13,7 +12,6 @@ URL = None  # 'https://github.com/me/myproject'
 EMAIL = 'kossak.git@gmail.com'
 AUTHOR = 'Kossak'
 REQUIRES_PYTHON = '>=3.6.0'
-VERSION = None
 
 REQUIRED = []
 
@@ -27,18 +25,19 @@ if not REQUIRED:
 with open(os.path.join(here, 'README.rst')) as f:
     long_description = '\n' + f.read()
 
-# Load the package's __version__.py module as a dictionary:
-about = {}
-if not VERSION:
-    with open(os.path.join(here, NAME, '__version__.py')) as f:
-        exec(f.read(), about)
-else:
-    about['__version__'] = VERSION
+# get package version:
+with open(os.path.join(here, NAME, '__version__.py')) as f:
+    text = f.read()
+    if '\'' in text:
+        sep = '\''
+    else:
+        sep = '"'
+    VERSION = text.split(sep)[1]
 
 # SETUP
 setup(
     name=NAME,
-    version=about['__version__'],
+    version=VERSION,
     description=DESCRIPTION,
     long_description=long_description,
     author=AUTHOR,
