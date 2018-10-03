@@ -311,7 +311,7 @@ class MyFirstGoat:
                 All times are in UTC (game time).
                 Only people with Member/Officer/Admin roles are displayed.
                 If you paid already, mark it in your message in {self.discord_loot_channel.mention}.
-                Any remarks about the bot direct to Kossak'''
+                Any remarks about the bot direct to github.com/tkossak/my_first_goat'''
             )
             for debtor, creditors in sorted(
                 debtors.items(),
