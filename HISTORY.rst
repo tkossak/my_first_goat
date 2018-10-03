@@ -3,8 +3,9 @@ Changelog
 
 0.5.2 (in progress)
 -------------------
-+ translate test message into english
 + update install/usage instructions in README
++ replace test message with version information
++ code cleaning
 
 0.5.1 (2018.07.23)
 ------------------
